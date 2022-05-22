@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import Carousel from "react-bootstrap/Carousel";
+import FeatherIcon from "feather-icons-react";
 import moment from "moment";
 import "./style.css";
 import PhotoBaseURL from "../../../utils/photoBaseURL";
+import { toastMessage } from "../toast";
 
 function BlogCard({ item }) {
-  const [user, setUser] = useState();
+  const { user } = useSelector((state) => state.root);
+  console.log(user?.token);
+  const [postUser, setUser] = useState();
   const getUser = async () => {
     axios
       .get(`users/${item?.postedBy}`)
@@ -20,43 +25,72 @@ function BlogCard({ item }) {
         console.log(error);
       });
   };
+  const onDelete = async () => {
+    console.log(item._id);
+    axios
+      .delete(`blogs/${item?._id}`)
+      .then((res) => {
+        if (res.statusText === "OK") {
+          toastMessage("Deleted Successfuly", "success");
+        }
+      })
+      .catch((error) => {
+        toastMessage("Delete unSuccessfull", "error");
+        console.log(error);
+      });
+  };
   useEffect(() => {
     getUser();
   }, []);
 
   return (
-    <div className="card-container" data-aos="fade-up" data-aos-duration="650">
+    <div
+      className="card-container w-100"
+      data-aos="fade-up"
+      data-aos-duration="650"
+    >
       <Card className="card-main-container">
         <Card.Body>
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <Card.Title className="d-flex align-items-center m-0">
-              <img
-                src={require("../../../../assets/images/profilePlaceholder.png")}
-                className="profile-pic"
-                alt="profile-pic"
-              />
-              <span className="ms-2">
-                {user?.firstname} {user?.lastname}
-              </span>
-            </Card.Title>
-            <Card.Subtitle className="text-muted">
-              {moment(item?.date).fromNow()}
-            </Card.Subtitle>
+            <div>
+              <Card.Title className="d-flex align-items-center m-0">
+                <span className="mb-1">
+                  {postUser?.firstname} {postUser?.lastname}
+                </span>
+              </Card.Title>
+              <Card.Subtitle className="text-muted">
+                {moment(item?.date).fromNow()}
+              </Card.Subtitle>
+            </div>
+            {user?.user?.id == postUser?.id && (
+              <div className="d-flex">
+                <FeatherIcon icon="edit-2" size="20" role="button" />
+                <FeatherIcon
+                  icon="trash"
+                  size="20"
+                  className="ms-2"
+                  role="button"
+                  onClick={onDelete}
+                />
+              </div>
+            )}
           </div>
           <Card.Text>{item?.text}</Card.Text>
-          <Carousel className="carosal">
-            {item?.images?.map((picture, index) => {
-              return (
-                <Carousel.Item>
-                  <img
-                    className="carosal-image"
-                    src={`${PhotoBaseURL}${picture}`}
-                    alt="First slide"
-                  />
-                </Carousel.Item>
-              );
-            })}
-          </Carousel>
+          {item?.images.length > 0 && (
+            <Carousel className="carosal">
+              {item?.images?.map((picture, index) => {
+                return (
+                  <Carousel.Item>
+                    <img
+                      className="carosal-image"
+                      src={`${PhotoBaseURL}${picture}`}
+                      alt="First slide"
+                    />
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
+          )}
         </Card.Body>
       </Card>
     </div>
