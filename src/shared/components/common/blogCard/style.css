@@ -1,0 +1,15 @@
+.card-container {
+  padding-bottom: 30px;
+}
+
+.carosal {
+  height: 400px;
+  background-color: lightgray;
+  margin-bottom: 7px;
+  align-items: center;
+}
+.carosal-image {
+  height: 400px;
+  object-fit: contain;
+  width: 100%;
+}

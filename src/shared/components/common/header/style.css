@@ -1,0 +1,74 @@
+.header {
+  background-color: white;
+}
+.header-list-style {
+  list-style: none;
+}
+.header-list-item {
+  text-decoration: none;
+}
+
+.profile-ctn {
+  height: 40px;
+  background-color: #f1f0f0;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+.header-signout-btn {
+  background-color: #0c8ed3;
+  padding: 9px 8px;
+  min-width: 90px;
+  text-align: center;
+  color: #ffffff !important;
+  font-size: 13px;
+  border: 0;
+  margin-left: 15px;
+  border: 1px solid #0c8ed3;
+}
+.header-signout-btn:hover {
+  color: #0c8ed3 !important;
+  background-color: #ffffff;
+  border: 1px solid #0c8ed3;
+}
+.menu-bar {
+  margin-left: 15px;
+  align-items: center;
+}
+.menu-bar .hamburger {
+  cursor: pointer;
+}
+
+.empty-header {
+  height: 20px;
+}
+
+.react-confirm-alert-button-group {
+  justify-content: center !important;
+}
+
+.react-confirm-alert-body {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.font-weight-light {
+  font-weight: 500 !important;
+}
+ul li a {
+  margin-right: 25px;
+  color: #151515;
+  font-weight: 700;
+}
+
+ul li a:hover {
+  color: #0c8ed3;
+  font-weight: 700;
+}

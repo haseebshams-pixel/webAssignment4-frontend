@@ -1,0 +1,53 @@
+.login-card-container {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+}
+
+.login-btn {
+  border: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: inherit;
+  height: 40px;
+  line-height: 40px;
+  overflow: hidden;
+  outline-width: 2px;
+  padding: 0 24px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 167ms;
+  transition-property: background-color, box-shadow, color, -webkit-box-shadow;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  vertical-align: middle;
+  z-index: 0;
+  background: #0a66c2 !important;
+}
+.login-btn:hover {
+  background: #004182 !important;
+  color: #fff;
+}
+.login-btn-txt-size {
+  font-size: 17px;
+}
+
+.error {
+  color: red;
+  font-size: 11px;
+  text-align: left;
+  position: absolute;
+  top: 60px;
+  z-index: 1;
+  /* margin: 10px 0; */
+}
+.login-forgot-txt {
+  color: #0a66c2;
+}
+.login-forgot-txt:hover {
+  text-decoration: underline !important;
+  cursor: pointer;
+}
