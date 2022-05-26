@@ -8,11 +8,18 @@ import moment from "moment";
 import "./style.css";
 import PhotoBaseURL from "../../../utils/photoBaseURL";
 import { toastMessage } from "../toast";
+import EditBlogModal from "../../modals/editBlog";
 
 function BlogCard({ item }) {
   const { user } = useSelector((state) => state.root);
-  console.log(user?.token);
   const [postUser, setUser] = useState();
+  const [open, setOpen] = useState(false);
+  const openModal = () => {
+    setOpen(true);
+  };
+  const closeModal = () => {
+    setOpen(false);
+  };
   const getUser = async () => {
     axios
       .get(`users/${item?.postedBy}`)
@@ -26,7 +33,6 @@ function BlogCard({ item }) {
       });
   };
   const onDelete = async () => {
-    console.log(item._id);
     axios
       .delete(`blogs/${item?._id}`)
       .then((res) => {
@@ -62,9 +68,14 @@ function BlogCard({ item }) {
                 {moment(item?.date).fromNow()}
               </Card.Subtitle>
             </div>
-            {user?.user?.id == postUser?.id && (
+            {user?.user?.id === postUser?.id && (
               <div className="d-flex">
-                <FeatherIcon icon="edit-2" size="20" role="button" />
+                <FeatherIcon
+                  icon="edit-2"
+                  size="20"
+                  role="button"
+                  onClick={openModal}
+                />
                 <FeatherIcon
                   icon="trash"
                   size="20"
@@ -80,7 +91,7 @@ function BlogCard({ item }) {
             <Carousel className="carosal">
               {item?.images?.map((picture, index) => {
                 return (
-                  <Carousel.Item>
+                  <Carousel.Item key={index}>
                     <img
                       className="carosal-image"
                       src={`${PhotoBaseURL}${picture}`}
@@ -93,6 +104,7 @@ function BlogCard({ item }) {
           )}
         </Card.Body>
       </Card>
+      <EditBlogModal show={open} hide={closeModal} item={item} />
     </div>
   );
 }

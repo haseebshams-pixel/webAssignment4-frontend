@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import CreateBlogModal from "../../modals/createBlog";
 import "./style.css";
 const CreateCard = ({ openModal, hideModal, open, txt }) => {
@@ -9,11 +9,6 @@ const CreateCard = ({ openModal, hideModal, open, txt }) => {
         data-aos="fade-up"
         data-aos-duration="550"
       >
-        <img
-          src={require("../../../../assets/images/profilePlaceholder.png")}
-          className="profile-pic"
-          alt="profile-pic"
-        />
         <div
           className="w-100 ms-2 p-2 post-create-input-field ps-3 d-flex align-items-center"
           role="button"

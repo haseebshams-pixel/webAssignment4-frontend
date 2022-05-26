@@ -5,32 +5,38 @@ import { Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toastMessage } from "../../common/toast";
+import PhotoBaseURL from "../../../utils/photoBaseURL";
 import axios from "axios";
 import "./style.css";
 
-const CreateBlogModal = ({ show, hide }) => {
+const EditBlogModal = ({ show, hide, item }) => {
   const history = useHistory();
   const user = useSelector((state) => state.root.user);
-  const [text, setText] = useState("");
-  const [photos, setPhotos] = useState([]);
+  const [text, setText] = useState(item?.text);
+  const [photos, setPhotos] = useState(item?.images);
+  const [removedPhotos, setRemovedPhotos] = useState([]);
+  const [newPhotos, setNewPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-
-  const postBlog = async () => {
+  console.log(item);
+  const editBlog = async () => {
     setSubmitting(true);
     let formData = new FormData();
-    if (photos === null && text === "") {
+    if (photos === null && text === "" && newPhotos === null) {
       setSubmitting(false);
       toastMessage("Write Something", "error");
     } else {
-      if (photos != null) {
-        for (let i = 0; i < photos.length; i++) {
-          formData.append("photos", photos[i]);
+      if (newPhotos != null) {
+        for (let i = 0; i < newPhotos.length; i++) {
+          formData.append("photos", newPhotos[i]);
         }
       }
 
       formData.append("text", text);
+      formData.append("postedBy", item?.postedBy);
+      formData.append("removedImages", JSON.stringify(removedPhotos));
+      formData.append("images", JSON.stringify(photos));
       axios
-        .post("blogs/", formData, {
+        .put(`blogs/${item?._id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             "x-auth-token": user?.token,
@@ -41,18 +47,29 @@ const CreateBlogModal = ({ show, hide }) => {
             setSubmitting(false);
             setText("");
             setPhotos([]);
+            setNewPhotos([]);
             history.push("/feed");
             hide();
-            toastMessage("Blog posted Successfully", "success");
+            toastMessage("Blog updated Successfully", "success");
           }
         })
         .catch((error) => {
           console.log(error);
           setSubmitting(false);
           hide();
-          toastMessage("Failed to post blog", "error");
+          toastMessage("failed to update blog", "error");
         });
     }
+  };
+
+  const removeImage = (val) => {
+    var filtered = photos.filter(function (value, index, arr) {
+      return value != val;
+    });
+    setPhotos(filtered);
+    let obj = removedPhotos;
+    obj.push(val);
+    setRemovedPhotos(obj);
   };
   return (
     <Modal
@@ -65,7 +82,7 @@ const CreateBlogModal = ({ show, hide }) => {
     >
       <div className="p-3">
         <div className="d-flex justify-content-between">
-          <h3 className="m-0">Create a Blog</h3>
+          <h3 className="m-0">Edit Blog</h3>
           <div className="close-icon-container" onClick={hide}>
             <FeatherIcon
               icon="x"
@@ -97,6 +114,25 @@ const CreateBlogModal = ({ show, hide }) => {
               placeholder="what do you want to talk about?"
               onChange={(e) => setText(e.target.value)}
             ></textarea>
+            <div className="d-flex flex-wrap mt-2">
+              {photos?.map((val, ind) => {
+                return (
+                  <div key={ind} className="position-relative">
+                    <img
+                      src={`${PhotoBaseURL}${val}`}
+                      className="edit-image"
+                      alt="post-photo"
+                    />
+                    <FeatherIcon
+                      icon={"x-circle"}
+                      size="20"
+                      className="cross-icon"
+                      onClick={() => removeImage(val)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="d-flex justify-content-between mt-4 align-items-center">
             <div className="image">
@@ -109,11 +145,11 @@ const CreateBlogModal = ({ show, hide }) => {
                 role="button"
                 id="file"
                 multiple
-                onChange={(e) => setPhotos(e.target.files)}
+                onChange={(e) => setNewPhotos(e.target.files)}
               />
-              <label>{photos?.length} files</label>
+              <label>{newPhotos?.length} files</label>
             </div>
-            <button className="blog-modal-btn px-3 py-1" onClick={postBlog}>
+            <button className="blog-modal-btn px-3 py-1" onClick={editBlog}>
               {submitting ? <Spinner animation="grow" size="sm" /> : "Post"}
             </button>
           </div>
@@ -123,4 +159,4 @@ const CreateBlogModal = ({ show, hide }) => {
   );
 };
 
-export default CreateBlogModal;
+export default EditBlogModal;
