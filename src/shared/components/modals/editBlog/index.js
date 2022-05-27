@@ -9,7 +9,7 @@ import PhotoBaseURL from "../../../utils/photoBaseURL";
 import axios from "axios";
 import "./style.css";
 
-const EditBlogModal = ({ show, hide, item }) => {
+const EditBlogModal = ({ show, hide, item, fetchPosts }) => {
   const history = useHistory();
   const user = useSelector((state) => state.root.user);
   const [text, setText] = useState(item?.text);
@@ -48,7 +48,7 @@ const EditBlogModal = ({ show, hide, item }) => {
             setText("");
             setPhotos([]);
             setNewPhotos([]);
-            history.push("/feed");
+            fetchPosts();
             hide();
             toastMessage("Blog updated Successfully", "success");
           }

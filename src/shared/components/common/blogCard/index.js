@@ -10,7 +10,7 @@ import PhotoBaseURL from "../../../utils/photoBaseURL";
 import { toastMessage } from "../toast";
 import EditBlogModal from "../../modals/editBlog";
 
-function BlogCard({ item }) {
+function BlogCard({ item, fetchPosts }) {
   const { user } = useSelector((state) => state.root);
   const [postUser, setUser] = useState();
   const [open, setOpen] = useState(false);
@@ -38,6 +38,7 @@ function BlogCard({ item }) {
       .then((res) => {
         if (res.statusText === "OK") {
           toastMessage("Deleted Successfuly", "success");
+          fetchPosts();
         }
       })
       .catch((error) => {
@@ -104,7 +105,12 @@ function BlogCard({ item }) {
           )}
         </Card.Body>
       </Card>
-      <EditBlogModal show={open} hide={closeModal} item={item} />
+      <EditBlogModal
+        show={open}
+        hide={closeModal}
+        item={item}
+        fetchPosts={fetchPosts}
+      />
     </div>
   );
 }

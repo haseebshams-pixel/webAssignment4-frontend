@@ -8,7 +8,7 @@ import { toastMessage } from "../../common/toast";
 import axios from "axios";
 import "./style.css";
 
-const CreateBlogModal = ({ show, hide }) => {
+const CreateBlogModal = ({ show, hide, fetchPosts }) => {
   const history = useHistory();
   const user = useSelector((state) => state.root.user);
   const [text, setText] = useState("");
@@ -41,7 +41,7 @@ const CreateBlogModal = ({ show, hide }) => {
             setSubmitting(false);
             setText("");
             setPhotos([]);
-            history.push("/feed");
+            fetchPosts();
             hide();
             toastMessage("Blog posted Successfully", "success");
           }

@@ -58,6 +58,7 @@ const Feed = () => {
                   hideModal={hideModal}
                   open={open}
                   txt="start a blog"
+                  fetchPosts={fetchPosts}
                 />
                 <hr className="w-100" />
               </>
@@ -66,7 +67,9 @@ const Feed = () => {
               <Spinner animation="grow" size="xl" />
             ) : (
               currentPosts?.map((item, index) => {
-                return <BlogCard item={item} key={index} />;
+                return (
+                  <BlogCard item={item} key={index} fetchPosts={fetchPosts} />
+                );
               })
             )}
             <Pagination

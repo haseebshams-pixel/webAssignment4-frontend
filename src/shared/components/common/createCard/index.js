@@ -1,7 +1,7 @@
 import React from "react";
 import CreateBlogModal from "../../modals/createBlog";
 import "./style.css";
-const CreateCard = ({ openModal, hideModal, open, txt }) => {
+const CreateCard = ({ openModal, hideModal, open, txt, fetchPosts }) => {
   return (
     <>
       <div
@@ -18,7 +18,7 @@ const CreateCard = ({ openModal, hideModal, open, txt }) => {
           <span className="create-card-span">{txt}</span>
         </div>
       </div>
-      <CreateBlogModal show={open} hide={hideModal} />
+      <CreateBlogModal show={open} hide={hideModal} fetchPosts={fetchPosts} />
     </>
   );
 };

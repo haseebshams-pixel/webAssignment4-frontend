@@ -13,7 +13,7 @@ const Home = () => {
             alt="logo"
           />
           <h4 className="my-4">
-            BlogPost helps you connect and share with the people in your life.
+            DigiBlog helps you connect and share with the people in your life.
           </h4>
         </div>
         <div className="col-lg-6 d-flex align-items-center justify-content-center">
