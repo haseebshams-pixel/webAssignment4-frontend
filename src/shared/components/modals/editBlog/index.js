@@ -17,7 +17,6 @@ const EditBlogModal = ({ show, hide, item, fetchPosts }) => {
   const [removedPhotos, setRemovedPhotos] = useState([]);
   const [newPhotos, setNewPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-  console.log(item);
   const editBlog = async () => {
     setSubmitting(true);
     let formData = new FormData();
